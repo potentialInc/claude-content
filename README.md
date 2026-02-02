@@ -6,6 +6,8 @@ Claude Code content creation and strategy skills - blog posts, documentation, vi
 
 This repo contains content-focused skills for Claude Code. Add it as a submodule to projects that need content creation and management capabilities.
 
+**16 skills total**: 8 general content + 2 Remotion-specific + 6 strategy
+
 **Focus**: Educational, informative content that builds brand authority and educates audiences.
 
 ## Installation
@@ -41,6 +43,17 @@ git submodule add https://github.com/potentialInc/claude-contents.git contents
 | `editorial-guidelines` | Writing standards, formatting rules, editorial workflow | editorial guidelines, writing standards, style rules |
 | `content-audit` | Content inventory, performance review, content pruning | content audit, content inventory, content review |
 
+### Remotion-Specific Skills (2 Skills)
+
+Specialized skills for Remotion - React-based programmatic video creation.
+
+| Skill | Description | Keywords |
+|-------|-------------|----------|
+| `remotion-best-practices` | Best practices for Remotion video creation - animations, media assets, timing, 3D, charts | remotion, remotion animation, video in react |
+| `remotion-upload` | Upload Remotion videos to social media platforms (Facebook, Instagram, TikTok, YouTube, etc.) | upload, post video, social media, facebook, instagram |
+
+**Purpose**: Technical implementation and distribution for Remotion projects.
+
 ## Differentiation from claude-marketing
 
 | Aspect | claude-marketing | claude-contents |
@@ -74,6 +87,12 @@ Skills are auto-suggested based on keywords in your prompts. For example:
 
 "Write a video script explaining our product"
 → Suggests: video-scripts
+
+"Create a Remotion animation for our landing page"
+→ Suggests: remotion-best-practices
+
+"Upload this Remotion video to TikTok and Instagram"
+→ Suggests: remotion-upload
 ```
 
 ## Structure
@@ -84,7 +103,7 @@ claude-contents/
 └── skills/
     ├── skill-rules.json               # Trigger configuration
     │
-    ├── creation/                      # Content Creation Skills (8)
+    ├── creation/                      # Content Creation Skills (10)
     │   ├── blog-post-writing/
     │   │   ├── SKILL.md
     │   │   └── resources/
@@ -94,7 +113,9 @@ claude-contents/
     │   ├── case-study-writing/
     │   ├── video-scripts/
     │   ├── newsletter-writing/
-    │   └── brand-storytelling/
+    │   ├── brand-storytelling/
+    │   ├── remotion-best-practices/   # Remotion technical implementation
+    │   └── remotion-upload/            # Remotion video distribution
     │
     └── strategy/                      # Content Strategy Skills (6)
         ├── content-calendar/
@@ -189,4 +210,4 @@ To add new skills or improve existing ones:
 
 ## Version
 
-v1.0.0-mvp (14 skills)
+v1.1.0 (16 skills: 8 general + 2 Remotion + 6 strategy)

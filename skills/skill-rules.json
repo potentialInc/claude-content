@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "skills": {
     "blog-post-writing": {
       "type": "domain",
@@ -308,6 +308,66 @@
           "(conduct|perform|do).*(content).*audit",
           "audit.*(existing|current).*content",
           "content.*(inventory|review)"
+        ]
+      }
+    },
+    "remotion-best-practices": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "remotion",
+          "remotion animation",
+          "remotion video",
+          "video in react",
+          "react video",
+          "programmatic video"
+        ],
+        "intentPatterns": [
+          "(create|build|make).*(remotion|animated).*(video|composition)",
+          "remotion.*(animation|video|composition)",
+          "(video|animation).*remotion"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "**/src/**/*.tsx",
+          "**/src/**/*.ts",
+          "**/remotion.config.ts"
+        ]
+      }
+    },
+    "remotion-upload": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "upload",
+          "post",
+          "publish",
+          "share",
+          "upload video",
+          "post video",
+          "social media",
+          "facebook",
+          "instagram",
+          "threads",
+          "tiktok",
+          "youtube"
+        ],
+        "intentPatterns": [
+          "(upload|post|publish|share).*(video|remotion)",
+          "upload.*to.*(facebook|instagram|threads|tiktok|youtube|social)",
+          "post.*(social|facebook|instagram)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "out/*.mp4",
+          "out/*.mov",
+          "scripts/*upload*.ts"
         ]
       }
     }
