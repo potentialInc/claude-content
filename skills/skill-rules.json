@@ -1,0 +1,315 @@
+{
+  "version": "1.0",
+  "skills": {
+    "blog-post-writing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "blog post",
+          "blog article",
+          "write blog",
+          "blog content",
+          "article writing"
+        ],
+        "intentPatterns": [
+          "(write|create|draft).*(blog|article)",
+          "(blog|article).*(writing|post|content)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "blog/**/*.md",
+          "content/**/*.md",
+          "articles/**/*.md"
+        ]
+      }
+    },
+    "long-form-content": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "long form",
+          "long-form",
+          "ultimate guide",
+          "pillar content",
+          "comprehensive guide",
+          "in-depth article",
+          "deep dive"
+        ],
+        "intentPatterns": [
+          "(write|create).*(ultimate guide|pillar|comprehensive|in-depth)",
+          "(3000|5000).*word.*(article|guide|post)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "guides/**/*.md",
+          "content/pillar/**/*.md"
+        ]
+      }
+    },
+    "technical-documentation": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "technical documentation",
+          "api docs",
+          "api documentation",
+          "user guide",
+          "sdk docs",
+          "integration guide",
+          "developer documentation"
+        ],
+        "intentPatterns": [
+          "(write|create|document).*(api|sdk|technical|integration).*docs",
+          "document.*(endpoint|function|method|class)",
+          "(user|developer).*(guide|documentation)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "docs/**/*.md",
+          "documentation/**/*.md",
+          "api-docs/**/*.md"
+        ]
+      }
+    },
+    "tutorial-content": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "tutorial",
+          "how-to",
+          "how to",
+          "step by step",
+          "walkthrough",
+          "guide"
+        ],
+        "intentPatterns": [
+          "(create|write).*(tutorial|how-to|walkthrough)",
+          "how to.*(do|create|build|implement)",
+          "step.?by.?step.*guide"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "tutorials/**/*.md",
+          "how-to/**/*.md"
+        ]
+      }
+    },
+    "case-study-writing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "case study",
+          "success story",
+          "customer story",
+          "use case",
+          "customer success"
+        ],
+        "intentPatterns": [
+          "(write|create).*(case study|success story|customer story)",
+          "document.*(customer success|use case)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "case-studies/**/*.md",
+          "success-stories/**/*.md"
+        ]
+      }
+    },
+    "video-scripts": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "video script",
+          "youtube script",
+          "explainer video",
+          "demo script",
+          "product demo",
+          "video content"
+        ],
+        "intentPatterns": [
+          "(write|create).*(video|youtube).*script",
+          "script.*(video|explainer|demo)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "scripts/**/*.md",
+          "video-scripts/**/*.md"
+        ]
+      }
+    },
+    "newsletter-writing": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "newsletter",
+          "email newsletter",
+          "subscriber content",
+          "newsletter content"
+        ],
+        "intentPatterns": [
+          "(write|create).*(newsletter|subscriber)",
+          "newsletter.*(content|writing|issue)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "newsletters/**/*.md",
+          "email/**/*.md"
+        ]
+      }
+    },
+    "brand-storytelling": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "brand story",
+          "company narrative",
+          "founder story",
+          "brand storytelling",
+          "company story",
+          "mission story"
+        ],
+        "intentPatterns": [
+          "(write|create|tell).*(brand|company|founder).*story",
+          "(brand|company).*(narrative|storytelling)"
+        ]
+      }
+    },
+    "content-calendar": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "content calendar",
+          "editorial calendar",
+          "content schedule",
+          "content planning",
+          "publishing schedule"
+        ],
+        "intentPatterns": [
+          "(create|plan|build).*(content|editorial).*calendar",
+          "plan.*(content|publishing).*schedule"
+        ]
+      }
+    },
+    "brand-voice": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "brand voice",
+          "tone of voice",
+          "style guide",
+          "writing voice",
+          "brand tone",
+          "voice guidelines"
+        ],
+        "intentPatterns": [
+          "(create|develop|establish).*(brand|writing).*voice",
+          "(brand|tone|style).*guide",
+          "voice.*guidelines"
+        ]
+      }
+    },
+    "content-strategy": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "content strategy",
+          "content planning",
+          "content goals",
+          "content pillars",
+          "content framework"
+        ],
+        "intentPatterns": [
+          "(create|develop|build).*(content).*strategy",
+          "content.*(pillars|framework|goals)",
+          "plan.*content.*approach"
+        ]
+      }
+    },
+    "content-atomization": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "content repurposing",
+          "atomization",
+          "atomize content",
+          "multi-format",
+          "repurpose content",
+          "content reuse"
+        ],
+        "intentPatterns": [
+          "(repurpose|atomize|convert).*(content)",
+          "content.*into.*(video|social|email)",
+          "multi.?format.*content"
+        ]
+      }
+    },
+    "editorial-guidelines": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "editorial guidelines",
+          "writing standards",
+          "editorial standards",
+          "style rules",
+          "writing rules"
+        ],
+        "intentPatterns": [
+          "(create|establish).*(editorial|writing).*(guidelines|standards)",
+          "(editorial|writing).*(rules|standards)"
+        ]
+      }
+    },
+    "content-audit": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": [
+          "content audit",
+          "content inventory",
+          "content review",
+          "audit content",
+          "content analysis"
+        ],
+        "intentPatterns": [
+          "(conduct|perform|do).*(content).*audit",
+          "audit.*(existing|current).*content",
+          "content.*(inventory|review)"
+        ]
+      }
+    }
+  }
+}
