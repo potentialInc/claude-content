@@ -370,6 +370,37 @@
           "scripts/*upload*.ts"
         ]
       }
+    },
+    "remotion-generate-video": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "generate video",
+          "create video",
+          "make reel",
+          "reels video",
+          "tts video",
+          "voice video",
+          "narrated video",
+          "elevenlabs",
+          "ai voice"
+        ],
+        "intentPatterns": [
+          "(generate|create|make).*(video|reel)",
+          "video.*with.*(voice|tts|audio|narration)",
+          "(tts|voice|narration).*video",
+          "elevenlabs.*(video|audio)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "scripts/*generate*.ts",
+          "scripts/*voice*.ts",
+          "scripts/*tts*.ts"
+        ]
+      }
     }
   }
 }

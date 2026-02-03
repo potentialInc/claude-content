@@ -1,0 +1,223 @@
+---
+name: create-korean-video
+description: Create Korean learning videos with AI-generated images and voice narration
+argument-hint: "[--type vocabulary|polite|situation|other] [--auto]"
+metadata:
+  tags: korean, video, learning, gemini, elevenlabs, remotion, character, tts
+when:
+  patterns:
+    - create video
+    - korean video
+    - learning video
+    - generate video
+  mentions:
+    - korean
+    - animals
+    - expressions
+    - restaurant
+    - polite
+    - learning
+---
+
+# Create Korean Video Skill
+
+Generate complete Korean learning videos with consistent AI-generated character images and voice narration.
+
+## When to Use
+
+Use this skill when:
+- Creating Korean learning videos with multiple items/phrases
+- Need consistent character across all images
+- Want automated TTS voice generation
+- Creating reels-format (1080x1920) educational content
+
+## Arguments
+
+```
+Usage: create korean video [--type TYPE] [--auto]
+
+Options:
+  --type TYPE   Video category (default: vocabulary)
+                - vocabulary: Korean words (body parts, food, weather, etc.)
+                - polite: Formal vs informal expressions (반말/존댓말)
+                - situation: Situational phrases (restaurant, airport, etc.)
+                - other: Custom user-defined topics
+
+  --auto        Auto-generate topic using AI
+                - AI creates 10 vocabulary items with translations
+                - No user input needed for topic selection
+                - Randomly selects theme within the chosen type
+```
+
+### Argument Combinations
+
+| Command | Behavior |
+|---------|----------|
+| `create video` | Manual mode - user provides topic and items |
+| `create video --type polite` | Manual mode with polite category context |
+| `create video --auto` | Auto mode - AI generates vocabulary topic |
+| `create video --type situation --auto` | Auto mode - AI generates situational phrases |
+
+## Example Requests
+
+### Manual Mode (User Provides Topic)
+- "Create a video with 10 images about animals in Korean"
+- "Create a video about Korean polite expressions"
+- "Create a video about Korean restaurant phrases"
+- "Create a video teaching Korean colors"
+
+### Auto Mode (AI Generates Topic)
+- "Create a video --auto" → AI picks random vocabulary topic
+- "Create a video --type vocabulary --auto" → AI generates vocabulary (body parts, weather, etc.)
+- "Create a video --type polite --auto" → AI generates formal/informal expressions
+- "Create a video --type situation --auto" → AI generates situational phrases (hospital, cafe, etc.)
+
+## Workflow Overview
+
+```
+[Parse Args] → Topic & Items → Base Image → Parallel Image Editing → TTS Audio → Remotion Video
+```
+
+### Step 0: Parse Arguments
+Extract `--type` and `--auto` flags from user request.
+
+### Step 1: Define Topic & Items
+
+**Manual Mode (default):**
+User provides:
+- Topic name (English & Korean)
+- List of items with Korean, English, and romanization
+- Character style preference
+
+**Auto Mode (--auto flag):**
+AI generates:
+- Random topic within selected type category
+- 10 vocabulary items with:
+  - Korean word/phrase
+  - English translation
+  - Romanization
+  - Character pose description
+- Intro/outro phrases in Korean
+
+### Step 2: Generate Base Character
+- Create ONE base character image first
+- Use consistent character description
+- White background (matches video scene background)
+- Portrait orientation for vertical formats (1080x1920)
+
+### Step 3: Generate Variation Images (Parallel)
+- Edit base image for each item pose
+- Use Task agents in parallel for speed
+- Maintain character consistency
+
+### Step 4: Generate TTS Audio
+- Create audio for each Korean phrase
+- Generate intro/outro audio
+- Uses ElevenLabs multilingual voice
+
+### Step 5: Create Video Composition
+- Build Remotion composition with:
+  - Intro scene with logo
+  - Item scenes with images & audio
+  - Summary scene
+- Register in Root.tsx
+
+### Step 6: Preview & Render
+- Preview in Remotion studio
+- Render to MP4
+
+## Configuration
+
+### Character Configuration
+
+```json
+{
+  "character": {
+    "style": "Disney Pixar style",
+    "description": "Korean girl, age 8, short black hair with red ribbon, yellow hanbok",
+    "background": "white",
+    "orientation": "portrait"
+  }
+}
+```
+
+### Video Configuration
+
+```json
+{
+  "video": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "introDuration": 90,
+    "itemDuration": 120,
+    "summaryDuration": 150
+  }
+}
+```
+
+## Pre-built Topic Templates
+
+The skill includes templates for common topics:
+- **Animals** - Common animals with Korean names
+- **Polite Expressions** - Casual vs formal speech
+- **Restaurant Phrases** - Ordering, paying, etc.
+- **Numbers** - 1-10 in native Korean
+- **Colors** - Basic colors
+- **Family Members** - Family vocabulary
+
+See [rules/topic-templates.md](rules/topic-templates.md) for details.
+
+## Output Structure
+
+```
+public/
+├── images/{topic-name}/
+│   ├── 01_item_name.png
+│   ├── 02_item_name.png
+│   └── ...
+└── audio/{topic-name}/
+    ├── intro.mp3
+    ├── 01_item_name.mp3
+    └── outro.mp3
+
+src/
+└── {TopicName}Video.tsx
+```
+
+## Dependencies
+
+- `@google/generative-ai` - Gemini image generation
+- `elevenlabs` - TTS voice generation
+- `remotion` - Video composition
+- `@remotion/transitions` - Scene transitions
+
+## Environment Variables
+
+Required in `.env`:
+```
+GEMINI_API_KEY=your_gemini_api_key
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+```
+
+## Detailed Documentation
+
+- [rules/workflow.md](rules/workflow.md) - Complete step-by-step workflow
+- [rules/image-generation.md](rules/image-generation.md) - Image generation & consistency
+- [rules/video-composition.md](rules/video-composition.md) - Remotion composition template
+- [rules/topic-templates.md](rules/topic-templates.md) - Pre-built topic templates
+
+## Quick Start Example
+
+**User Request:**
+"Create a video about Korean greetings with 5 phrases"
+
+**Claude's Response:**
+1. Parse items: 안녕, 안녕하세요, 고마워, 감사합니다, 잘 가
+2. Generate base character image
+3. Edit base for each greeting pose (parallel)
+4. Generate TTS for each phrase
+5. Create `src/KoreanGreetingsVideo.tsx`
+6. Register in Root.tsx
+7. Preview: `npm run dev`
+8. Render: `npx remotion render KoreanGreetings out/greetings.mp4`
