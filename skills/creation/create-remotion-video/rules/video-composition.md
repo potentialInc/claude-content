@@ -20,7 +20,7 @@ Remotion composition template for creating Korean learning videos.
 ## Scene Structure
 
 ```
-1. Intro Scene (3 sec) → 2. Item Scenes (4 sec each) → 3. Summary Scene (5 sec)
+1. Intro Scene (4 sec) → 2. Item Scenes (6 sec each) → 3. Summary Scene (7 sec)
 ```
 
 ## Complete Composition Template
@@ -58,11 +58,11 @@ const getAudioPath = (id: string) => staticFile(`audio/{topic}/${id}.mp3`);
 const INTRO_AUDIO = staticFile("audio/{topic}/intro.mp3");
 const OUTRO_AUDIO = staticFile("audio/{topic}/outro.mp3");
 
-// Duration constants
-const INTRO_DURATION = 90;
-const ITEM_DURATION = 120;
-const SUMMARY_DURATION = 150;
-const TRANSITION_DURATION = 15;
+// Duration constants (beginner-friendly timing)
+const INTRO_DURATION = 120;          // 4 seconds (was 3s)
+const ITEM_DURATION = 180;           // 6 seconds per item (was 4s)
+const SUMMARY_DURATION = 210;        // 7 seconds (was 5s)
+const TRANSITION_DURATION = 20;      // ~0.67 seconds (was 0.5s)
 
 // Item data
 const ITEMS = [
@@ -120,7 +120,7 @@ const IntroScene: React.FC = () => {
 
       <div style={{ opacity: exitOpacity }} className="text-center px-8">
         <div style={{ transform: `scale(${logoScale})` }} className="mb-12">
-          <Img src={LOGO_PATH} width={280} className="mx-auto" />
+          <Img src={LOGO_PATH} width={360} className="mx-auto" />
         </div>
 
         <div
@@ -196,7 +196,7 @@ const ItemScene: React.FC<{
             opacity: Math.max(0, textProgress),
             transform: `translateY(${interpolate(Math.max(0, textProgress), [0, 1], [30, 0])}px)`,
           }}
-          className="text-7xl font-bold text-white text-center mb-4"
+          className="text-8xl font-bold text-white text-center mb-4"
         >
           {item.korean}
         </div>
@@ -207,7 +207,7 @@ const ItemScene: React.FC<{
             fontFamily: englishFont,
             opacity: Math.max(0, textProgress),
           }}
-          className="text-2xl text-white/70 italic mb-4"
+          className="text-3xl text-white/70 italic mb-4"
         >
           {item.romanization}
         </div>
@@ -219,7 +219,7 @@ const ItemScene: React.FC<{
             color: colors.accent,
             opacity: Math.max(0, textProgress),
           }}
-          className="text-3xl font-semibold"
+          className="text-4xl font-semibold"
         >
           {item.english}
         </div>
@@ -248,7 +248,7 @@ const SummaryScene: React.FC = () => {
       <FloatingParticles count={25} color="rgba(255,255,255,0.15)" />
 
       <div style={{ transform: `scale(${logoProgress})` }} className="mb-6">
-        <Img src={LOGO_PATH} width={180} className="mx-auto" />
+        <Img src={LOGO_PATH} width={240} className="mx-auto" />
       </div>
 
       <div
@@ -358,16 +358,16 @@ import { {TopicName}Video } from "./{TopicName}";
 
 ```typescript
 const calculateDuration = (itemCount: number) => {
-  const INTRO = 90;
-  const ITEM = 120;
-  const SUMMARY = 150;
-  const TRANSITION = 15;
+  const INTRO = 120;       // 4 seconds
+  const ITEM = 180;        // 6 seconds per item
+  const SUMMARY = 210;     // 7 seconds
+  const TRANSITION = 20;   // ~0.67 seconds
 
   return INTRO + (itemCount * ITEM) + SUMMARY + ((itemCount + 1) * TRANSITION);
 };
 
 // Example: 5 items
-// 90 + (5 * 120) + 150 + (6 * 15) = 90 + 600 + 150 + 90 = 930 frames = 31 seconds
+// 120 + (5 * 180) + 210 + (6 * 20) = 120 + 900 + 210 + 120 = 1350 frames = 45 seconds
 ```
 
 ## Transition Options
@@ -421,16 +421,16 @@ presentation={wipe({ direction: "from-left" })}
 <div className="flex flex-col gap-3 px-6 w-full">
   {items.map((item, i) => (
     <div className="bg-white/15 backdrop-blur rounded-xl p-4 flex items-center gap-4">
-      {/* Number - 24px */}
-      <div style={{ fontFamily: englishFont, fontSize: 24, minWidth: 50 }}>
+      {/* Number - 28px */}
+      <div style={{ fontFamily: englishFont, fontSize: 28, minWidth: 50 }}>
         #{i + 1}
       </div>
-      {/* Korean - 32px */}
-      <div style={{ fontFamily: koreanFont, fontSize: 32 }}>
+      {/* Korean - 40px */}
+      <div style={{ fontFamily: koreanFont, fontSize: 40 }}>
         {item.korean}
       </div>
-      {/* English - 22px */}
-      <div style={{ fontFamily: englishFont, fontSize: 22 }}>
+      {/* English - 26px */}
+      <div style={{ fontFamily: englishFont, fontSize: 26 }}>
         {item.english}
       </div>
     </div>
@@ -444,16 +444,16 @@ Keep logo and emoji smaller to give more room for the phrase list:
 
 ```tsx
 // Logo - smaller for summary
-<Img src={LOGO_PATH} width={140} />
+<Img src={LOGO_PATH} width={180} />
 
-// Emoji - 50px instead of 60px
-<div style={{ fontSize: 50 }}>🍽️</div>
+// Emoji - 60px for visibility
+<div style={{ fontSize: 60 }}>🍽️</div>
 
-// Title - explicit 36px
-<div style={{ fontSize: 36 }}>Now you can order!</div>
+// Title - explicit 44px
+<div style={{ fontSize: 44 }}>Now you can order!</div>
 
 // Checkmark - larger for visibility
-<AnimatedCheckmark size={70} color="#22c55e" />
+<AnimatedCheckmark size={90} color="#22c55e" />
 ```
 
 ### 4. Spacing in Summary Scene
@@ -506,3 +506,318 @@ className="px-6"  // instead of px-4
 - Title margin: `mb-2` (minimal)
 - Image margin: `my-0` (none)
 - Image minHeight: `550` (reduced from 650)
+
+---
+
+## Pronunciation Video Composition Template
+
+**IMPORTANT**: This template is for `--type pronunciation` videos. It does NOT use character images.
+
+### Design Specification (Clean Style)
+
+Clean, minimalist design for pronunciation videos:
+- **NO logo**: Keep scenes simple and focused
+- **Korean character**: Large, centered (~280px font, bold, dark gray #1f2937)
+- **Romanization button**: Pink/coral (#f87171) rounded rectangle at bottom with white text
+- **Background**: Pure white (#ffffff)
+
+### Pronunciation Item Data Structure
+
+```typescript
+// Simplified - no image or english fields
+interface PronunciationItem {
+  id: string;
+  korean: string;        // Korean letter/syllable
+  romanization: string;  // Romanized pronunciation
+  audio: string;         // Audio file name
+}
+
+const ITEMS: PronunciationItem[] = [
+  { id: "01_a", korean: "아", romanization: "a", audio: "01_a" },
+  { id: "02_eo", korean: "어", romanization: "eo", audio: "02_eo" },
+  // ... more items
+];
+```
+
+### PronunciationScene Component
+
+```tsx
+// Pronunciation Scene - NO character images, clean design (NO logo)
+const PronunciationScene: React.FC<{
+  item: PronunciationItem;
+}> = ({ item }) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+
+  // Letter scale animation
+  const letterScale = spring({
+    frame,
+    fps,
+    config: { damping: 12, stiffness: 100 },
+  });
+
+  // Button animation (delayed)
+  const buttonProgress = spring({
+    frame: frame - 0.3 * fps,
+    fps,
+    config: { damping: 15, stiffness: 80 },
+  });
+
+  // Exit animation
+  const exitOpacity = interpolate(
+    frame,
+    [durationInFrames - 15, durationInFrames],
+    [1, 0],
+    { extrapolateLeft: "clamp" }
+  );
+
+  return (
+    <AbsoluteFill style={{ background: "#ffffff" }}>
+      {/* Audio */}
+      <Sequence from={Math.floor(fps * 0.3)}>
+        <Audio src={getAudioPath(item.audio)} volume={0.8} />
+      </Sequence>
+
+      <div style={{ opacity: exitOpacity, height: "100%" }}>
+        {/* Large Korean Letter - Centered */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: koreanFont,
+              fontSize: 280,
+              fontWeight: 900,
+              color: "#1f2937",
+              transform: `scale(${letterScale})`,
+            }}
+          >
+            {item.korean}
+          </div>
+        </div>
+
+        {/* Romanization Button - Bottom Center */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 280,
+            left: "50%",
+            transform: `translateX(-50%) scale(${Math.max(0, buttonProgress)})`,
+            opacity: Math.max(0, buttonProgress),
+          }}
+        >
+          <div
+            style={{
+              background: "#f87171",
+              borderRadius: 24,
+              padding: "24px 80px",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: englishFont,
+                fontSize: 64,
+                color: "white",
+                fontWeight: 700,
+              }}
+            >
+              {item.romanization}
+            </span>
+          </div>
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+```
+
+### Pronunciation Intro Scene
+
+```tsx
+// Pronunciation Intro - Clean design (NO logo)
+const PronunciationIntroScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+
+  const titleProgress = spring({
+    frame: frame - 0.2 * fps,
+    fps,
+    config: { damping: 12, stiffness: 100 },
+  });
+
+  const exitOpacity = interpolate(
+    frame,
+    [durationInFrames - 15, durationInFrames],
+    [1, 0],
+    { extrapolateLeft: "clamp" }
+  );
+
+  return (
+    <AbsoluteFill style={{ background: "#ffffff" }}>
+      <Sequence from={Math.floor(fps * 0.5)}>
+        <Audio src={INTRO_AUDIO} volume={0.8} />
+      </Sequence>
+
+      <div
+        style={{ opacity: exitOpacity }}
+        className="flex flex-col items-center justify-center h-full px-8"
+      >
+        {/* Topic Title */}
+        <div
+          style={{
+            fontFamily: englishFont,
+            fontSize: 64,
+            fontWeight: 800,
+            color: "#1f2937",
+            opacity: Math.max(0, titleProgress),
+            transform: `translateY(${interpolate(Math.max(0, titleProgress), [0, 1], [30, 0])}px)`,
+          }}
+          className="text-center mb-6"
+        >
+          Korean Vowels
+        </div>
+
+        {/* Korean Subtitle */}
+        <div
+          style={{
+            fontFamily: koreanFont,
+            fontSize: 48,
+            fontWeight: 600,
+            color: "#6b7280",
+            opacity: Math.max(0, titleProgress),
+          }}
+        >
+          한국어 모음
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+```
+
+### Pronunciation Summary Scene
+
+```tsx
+// Pronunciation Summary - Grid of all letters learned (NO logo, NO success message)
+const PronunciationSummaryScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  return (
+    <AbsoluteFill style={{ background: "#ffffff" }}>
+      <Sequence from={Math.floor(fps * 0.5)}>
+        <Audio src={OUTRO_AUDIO} volume={0.8} />
+      </Sequence>
+
+      <div className="flex flex-col items-center justify-center h-full">
+        {/* Grid of letters - 3 columns, large text */}
+        <div className="grid grid-cols-3 gap-6 px-12">
+          {ITEMS.map((item, i) => {
+            const cardProgress = spring({
+              frame: frame - 0.3 * fps - i * 2,
+              fps,
+              config: { damping: 10, stiffness: 100 },
+            });
+
+            return (
+              <div
+                key={item.id}
+                style={{
+                  opacity: Math.max(0, cardProgress),
+                  transform: `scale(${Math.max(0.8, Math.min(1.05, cardProgress))})`,
+                }}
+                className="bg-gray-100 rounded-2xl p-8 text-center"
+              >
+                <div
+                  style={{
+                    fontFamily: koreanFont,
+                    fontSize: 240,
+                    fontWeight: 700,
+                    color: "#1f2937",
+                    lineHeight: 1,
+                  }}
+                >
+                  {item.korean}
+                </div>
+                <div
+                  style={{
+                    fontFamily: englishFont,
+                    fontSize: 50,
+                    fontWeight: 600,
+                    color: "#6b7280",
+                    marginTop: -20,
+                  }}
+                >
+                  {item.romanization}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Checkmark */}
+        <div
+          style={{
+            marginTop: 40,
+            opacity: spring({ frame: frame - fps * 2, fps, config: { damping: 200 } }),
+          }}
+        >
+          <AnimatedCheckmark delay={fps * 2} size={80} color="#22c55e" />
+        </div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+```
+
+### Main Pronunciation Composition
+
+```tsx
+// Main Pronunciation Video Composition
+export const KoreanPronunciationVideo: React.FC = () => {
+  return (
+    <TransitionSeries>
+      {/* Intro */}
+      <TransitionSeries.Sequence durationInFrames={INTRO_DURATION}>
+        <PronunciationIntroScene topic="Korean Vowels" topicKorean="한국어 모음" />
+      </TransitionSeries.Sequence>
+
+      <TransitionSeries.Transition
+        presentation={fade()}
+        timing={springTiming({ config: { damping: 200 }, durationInFrames: TRANSITION_DURATION })}
+      />
+
+      {/* Letter Scenes */}
+      {ITEMS.flatMap((item, i) => {
+        const elements = [
+          <TransitionSeries.Sequence key={`item-${i}`} durationInFrames={ITEM_DURATION}>
+            <PronunciationScene item={item} />
+          </TransitionSeries.Sequence>,
+        ];
+
+        elements.push(
+          <TransitionSeries.Transition
+            key={`trans-${i}`}
+            presentation={i < ITEMS.length - 1 ? slide({ direction: "from-right" }) : fade()}
+            timing={springTiming({ config: { damping: 200 }, durationInFrames: TRANSITION_DURATION })}
+          />
+        );
+
+        return elements;
+      })}
+
+      {/* Summary */}
+      <TransitionSeries.Sequence durationInFrames={SUMMARY_DURATION}>
+        <PronunciationSummaryScene />
+      </TransitionSeries.Sequence>
+    </TransitionSeries>
+  );
+};
+```

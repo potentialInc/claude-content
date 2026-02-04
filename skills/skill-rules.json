@@ -401,6 +401,84 @@
           "scripts/*tts*.ts"
         ]
       }
+    },
+    "create-veo3-prompt": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "veo3",
+          "veo prompt",
+          "veo3 prompt",
+          "create veo3",
+          "generate veo3",
+          "video prompt",
+          "scene prompt",
+          "ai video prompt"
+        ],
+        "intentPatterns": [
+          "(create|generate|make).*(veo3?|veo).*prompt",
+          "veo3?.*(prompt|scene)",
+          "(video|scene).*prompt.*veo"
+        ]
+      }
+    },
+    "create-veo3-video": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "veo3 video",
+          "nano banana video",
+          "ai video",
+          "generate veo video",
+          "image to video",
+          "create veo3 video",
+          "nano banana",
+          "veo3 generation"
+        ],
+        "intentPatterns": [
+          "(create|generate|make).*(veo3?|veo).*video",
+          "(nano banana|veo3?).*video",
+          "(image|picture).*(to|into).*video",
+          "veo3?.*generation"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "scripts/generate-veo3-video.ts",
+          "public/images/base-characters/**"
+        ]
+      }
+    },
+    "create-remotion-video": {
+      "type": "domain",
+      "enforcement": "suggest",
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": [
+          "remotion video",
+          "korean video",
+          "learning video",
+          "korean learning",
+          "vocabulary video",
+          "tts video",
+          "elevenlabs video"
+        ],
+        "intentPatterns": [
+          "(create|generate|make).*remotion.*video",
+          "(korean|learning).*video",
+          "video.*(korean|vocabulary|learning)"
+        ]
+      },
+      "fileTriggers": {
+        "pathPatterns": [
+          "src/**/*Video.tsx",
+          "public/audio/**/*.mp3"
+        ]
+      }
     }
   }
 }
