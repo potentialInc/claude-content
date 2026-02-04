@@ -12,7 +12,7 @@ Complete step-by-step process for creating Korean learning videos with consisten
 ## Overview
 
 ```
-0. Parse Args → 1. Generate/Parse Topic → 2. Base Image → 3. Variation Images → 3.5. Remove Backgrounds → 4. TTS Audio → 5. Composition → 6. Render
+0. Parse Args → 1. [Load Topic Library OR Generate/Parse Topic] → 2. Base Image → 3. Variation Images → 3.5. Remove Backgrounds → 4. TTS Audio → 5. Composition → 6. Render
 ```
 
 ## Step 0: Parse Arguments
@@ -22,34 +22,84 @@ Extract arguments from user request to determine mode and type.
 ### Argument Parsing
 ```typescript
 interface VideoArgs {
-  type: 'vocabulary' | 'polite' | 'situation' | 'other';
+  type: 'vocabulary' | 'polite' | 'situation' | 'sentence' | 'pronunciation' | 'other';
   auto: boolean;
+  fromTopic?: string;  // Topic library slug
 }
 
 // Default values
 const args: VideoArgs = {
   type: 'vocabulary',
-  auto: false
+  auto: false,
+  fromTopic: undefined
 };
 
 // Parse from user request
 // Examples:
+// "create video --from-topic korean-greetings" → { fromTopic: 'korean-greetings' } (RECOMMENDED)
 // "create video --type polite --auto" → { type: 'polite', auto: true }
 // "create video --auto" → { type: 'vocabulary', auto: true }
 // "create video about animals" → { type: 'vocabulary', auto: false }
 ```
 
 ### Mode Determination
+- **Library Mode**: `--from-topic` flag present → Load from topic library (RECOMMENDED)
 - **Auto Mode**: `--auto` flag present → AI generates topic
-- **Manual Mode**: No `--auto` flag → User provides topic and items
+- **Manual Mode**: No flags → User provides topic and items
 
 ---
 
 ## Step 1: Generate or Parse Topic & Items
 
-### 1a. Manual Mode (default)
+### 1a. Library Mode (--from-topic flag) - RECOMMENDED
 
-When user requests a video without `--auto`, extract:
+When `--from-topic` is specified, load topic from library.
+
+#### Loading Process
+```typescript
+const topicPath = `public/topics/${args.fromTopic}/topic.json`;
+const topicData = JSON.parse(fs.readFileSync(topicPath, 'utf-8'));
+
+// Extract config from topic library
+const config = {
+  topic: topicData.metadata.topic_name.english,
+  topicKorean: topicData.metadata.topic_name.korean,
+  outputDir: topicData.metadata.topic_slug,
+  intro: topicData.intro.korean,
+  outro: topicData.outro.korean,
+  items: topicData.scenes.map((scene, i) => ({
+    id: `${String(i + 1).padStart(2, '0')}_${scene.content.romanization.replace(/\s+/g, '_')}`,
+    korean: scene.content.korean,
+    english: scene.content.english,
+    romanization: scene.content.romanization,
+    // Adapt pose for Disney Pixar style
+    pose: adaptPoseForCartoonStyle(scene.visual.pose_suggestion, scene.visual.expression)
+  }))
+};
+```
+
+#### Adapting Visual Hints for Cartoon Style
+Topic library provides style-neutral poses. Adapt for Disney Pixar:
+
+```typescript
+function adaptPoseForCartoonStyle(pose: string, expression: string): string {
+  // Add cartoon-style descriptors
+  return `${pose}, ${expression}, cute expressive eyes, Disney Pixar 3D animation style`;
+}
+
+// Example:
+// Input: "waving hand casually, relaxed stance" + "bright, friendly smile"
+// Output: "waving hand casually, relaxed stance, bright, friendly smile, cute expressive eyes, Disney Pixar 3D animation style"
+```
+
+#### Using Voiceover Content
+The topic library includes detailed voiceover:
+- `scene.voiceover.korean_audio` → Use for TTS generation
+- `scene.voiceover.explanation` → Can be used for English narration if needed
+
+### 1b. Manual Mode (default)
+
+When user requests a video without `--auto` or `--from-topic`, extract:
 - Topic name (English & Korean)
 - List of items to teach
 - Character style (if specified)
@@ -60,7 +110,7 @@ User: "Create a video about Korean greetings"
 Items: 안녕, 안녕하세요, 고마워, 감사합니다, 잘 가
 ```
 
-### 1b. Auto Mode (--auto flag)
+### 1c. Auto Mode (--auto flag)
 
 When `--auto` is specified, AI generates the topic and items.
 
@@ -100,6 +150,19 @@ const GENERATION_PROMPTS = {
       "intro": "[Intro in Korean about the situation]",
       "outro": "[Outro in Korean praising practical skills]",
       "items": [10 practical phrases with { "korean", "english", "romanization", "pose" }]
+    }`,
+
+  sentence: `Generate common everyday Korean sentences for beginners.
+    Pick ONE random theme from: eating & drinking, feelings & states, daily actions, basic requests, simple descriptions.
+    Focus on simple, practical sentences used in daily life (not situation-specific).
+    Use formal polite form (합니다/습니다) for consistency.
+    Return JSON with exactly this structure:
+    {
+      "topic": "Korean Common Sentences",
+      "topicKorean": "한국어 일상 문장",
+      "intro": "[Intro in Korean about learning everyday sentences]",
+      "outro": "[Outro in Korean praising sentence mastery]",
+      "items": [10 common sentences with { "korean", "english", "romanization", "pose" }]
     }`,
 
   other: `Generate Korean items based on user's specified theme.
@@ -395,3 +458,111 @@ npx remotion render KoreanGreetings out/korean-greetings.mp4
 - Check base image exists before variations
 - Verify all images generated before composition
 - Preview before final render
+
+---
+
+## Pronunciation Type Workflow (Simplified)
+
+**IMPORTANT**: The `--type pronunciation` workflow is SIMPLIFIED - it does NOT require image generation.
+
+### Pronunciation Workflow Overview
+```
+0. Parse Args → 1. Select/Generate Letters → 4. TTS Audio → 5. Composition (PronunciationScene) → 6. Render
+```
+
+**Steps 2, 3, and 3.5 are SKIPPED** for pronunciation type because no character images are needed.
+
+### Step 1 (Pronunciation): Select Letter Template
+
+For `--type pronunciation`, select from pre-built templates:
+
+```typescript
+// Available pronunciation templates
+const PRONUNCIATION_TEMPLATES = {
+  'vowels': koreanVowelsTemplate,           // ㅏ, ㅓ, ㅗ, ㅜ, etc.
+  'consonants': koreanConsonantsTemplate,   // ㄱ, ㄴ, ㄷ, ㄹ, etc.
+  'syllable-vowels': koreanSyllableVowelsTemplate,     // 아, 어, 오, 우, etc.
+  'syllable-consonants': koreanSyllableConsonantsTemplate,  // 가, 나, 다, 라, etc.
+};
+
+// Config structure for pronunciation (NO character/pose fields)
+const config = {
+  topic: "Korean Vowels",
+  topicKorean: "한국어 모음",
+  outputDir: "korean-vowels",
+  intro: "한국어 모음을 배워봐요!",
+  outro: "잘했어요! 이제 모음을 알아요!",
+  items: [
+    { id: "01_a", korean: "ㅏ", romanization: "a" },
+    { id: "02_eo", korean: "ㅓ", romanization: "eo" },
+    // ... more letters
+  ]
+};
+```
+
+### Step 4 (Pronunciation): Generate TTS Audio
+
+Generate audio for each letter pronunciation:
+
+```typescript
+// For pronunciation, TTS reads just the letter sound
+const ITEMS = [
+  { id: "01_a", korean: "아" },  // TTS will say "아"
+  { id: "02_eo", korean: "어" },
+  // ...
+];
+```
+
+### Step 5 (Pronunciation): Create PronunciationScene Composition
+
+Use the `PronunciationScene` component instead of `ItemScene`:
+
+```tsx
+// See video-composition.md for full PronunciationScene template
+// Key differences from ItemScene:
+// - No character image
+// - NO logo (clean, minimalist design)
+// - Large centered Korean letter (~280px)
+// - Pink romanization button at bottom (padding: 24px 80px, fontSize: 64px)
+// - White background (#ffffff)
+// - Summary: 3-column grid, 240px Korean letters, 50px romanization
+```
+
+### Pronunciation Complete Example
+
+```bash
+# 1. Create audio directory only (no images needed)
+mkdir -p public/audio/korean-vowels
+
+# 2. SKIP image generation (Steps 2, 3, 3.5)
+
+# 3. Generate TTS for each letter
+npx ts-node scripts/generate-vowels-tts.ts
+
+# 4. Create composition with PronunciationScene
+# ... create src/KoreanVowelsVideo.tsx ...
+
+# 5. Preview
+npm run dev
+
+# 6. Render
+npx remotion render KoreanVowels out/korean-vowels.mp4
+```
+
+### Auto Mode for Pronunciation
+
+When `--type pronunciation --auto` is used:
+
+```typescript
+const PRONUNCIATION_GENERATION_PROMPT = `Generate a Korean letter pronunciation learning topic.
+  Pick ONE random category from: basic vowels, compound vowels, basic consonants, aspirated consonants, syllable blocks with vowels, syllable blocks with consonants.
+  Return JSON with exactly this structure:
+  {
+    "topic": "Korean [Category]",
+    "topicKorean": "[Category in Korean]",
+    "intro": "[Intro phrase in Korean]",
+    "outro": "[Outro phrase in Korean]",
+    "items": [10-14 items with { "korean", "romanization" }]
+  }
+  NOTE: No "english" or "pose" fields needed for pronunciation type.`;
+```

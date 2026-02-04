@@ -20,6 +20,7 @@ Templates and themes are organized into categories for the `--type` argument:
 | `vocabulary` | Korean vocabulary words | Animals, Numbers, Colors, Family, Body Parts, Food, Weather |
 | `polite` | Formal vs informal speech | Polite Expressions (반말/존댓말 pairs) |
 | `situation` | Situational phrases | Restaurant, Airport, Hospital, Shopping |
+| `sentence` | Common everyday sentences | Eating/Drinking, Feelings, Daily Actions, Basic Requests |
 | `other` | Custom topics | User-defined |
 
 ---
@@ -57,6 +58,21 @@ When using `--auto` mode, AI randomly selects a theme within the category:
 - Bank (은행)
 - Subway (지하철)
 - Shopping mall (쇼핑몰)
+
+### Sentence Themes
+- Eating & Drinking (먹기/마시기)
+- Feelings & States (감정/상태)
+- Daily Actions (일상 행동)
+- Basic Requests (기본 부탁)
+- Simple Descriptions (간단한 묘사)
+
+### Pronunciation Themes (NO images needed)
+- Basic Vowels (기본 모음) - ㅏ, ㅓ, ㅗ, ㅜ, ㅡ, ㅣ
+- Compound Vowels (복합 모음) - ㅐ, ㅔ, ㅛ, ㅠ, ㅑ, ㅕ
+- Basic Consonants (기본 자음) - ㄱ, ㄴ, ㄷ, ㄹ, ㅁ, ㅂ, ㅅ, ㅇ, ㅈ
+- Aspirated Consonants (거센소리) - ㅊ, ㅋ, ㅌ, ㅍ, ㅎ
+- Syllable Blocks with Vowels (음절 - 모음) - 아, 어, 오, 우, 으, 이
+- Syllable Blocks with Consonants (음절 - 자음) - 가, 나, 다, 라, 마, 바, 사
 
 ---
 
@@ -258,12 +274,185 @@ const familyTemplate = {
 
 ---
 
+## Common Sentences (일상 문장)
+
+```typescript
+const commonSentencesTemplate = {
+  topic: "Korean Common Sentences",
+  topicKorean: "한국어 일상 문장",
+  intro: "일상 문장을 배워봐요!",
+  outro: "잘했어요! 이제 기본 문장을 말할 수 있어요!",
+  character: {
+    style: "Disney Pixar style",
+    description: "Korean child, casual clothes, expressive face"
+  },
+  items: [
+    { id: "01_eat", korean: "먹습니다", english: "I eat", romanization: "meokseumnida", pose: "eating motion with chopsticks" },
+    { id: "02_drink", korean: "마십니다", english: "I drink", romanization: "masimnida", pose: "drinking from cup" },
+    { id: "03_delicious", korean: "맛있습니다", english: "It's delicious", romanization: "masissseumnida", pose: "happy satisfied expression, thumbs up" },
+    { id: "04_not_tasty", korean: "맛없습니다", english: "It's not tasty", romanization: "maseopsseumnida", pose: "disappointed expression, slight frown" },
+    { id: "05_full", korean: "배부릅니다", english: "I am full", romanization: "baebureumnida", pose: "patting belly with satisfied smile" },
+    { id: "06_menu", korean: "메뉴 주세요", english: "Please give me the menu", romanization: "menyu juseyo", pose: "polite requesting gesture" },
+    { id: "07_hungry", korean: "배고픕니다", english: "I am hungry", romanization: "baegopemnida", pose: "holding empty belly" },
+    { id: "08_thirsty", korean: "목마릅니다", english: "I am thirsty", romanization: "mongmareumnida", pose: "touching throat" },
+    { id: "09_tired", korean: "피곤합니다", english: "I am tired", romanization: "pigonhamnida", pose: "sleepy yawning" },
+    { id: "10_happy", korean: "행복합니다", english: "I am happy", romanization: "haengbokhamnida", pose: "big joyful smile, arms up" },
+  ]
+};
+```
+
+---
+
+## Pronunciation Templates (발음)
+
+**IMPORTANT**: Pronunciation videos do NOT require character images. They use a clean, minimalist text-based design with a large Korean letter and romanization button (NO logo).
+
+### Pronunciation Template Structure
+
+```typescript
+// Simplified structure - no character or pose fields
+interface PronunciationTemplate {
+  topic: string;
+  topicKorean: string;
+  intro: string;
+  outro: string;
+  items: {
+    id: string;
+    korean: string;        // Korean letter/syllable
+    romanization: string;  // Romanized pronunciation
+  }[];  // No pose field - no images needed
+}
+```
+
+### Design Specification (Clean Style)
+
+Clean, minimalist design for pronunciation videos:
+- **NO logo**: Keep scenes simple and focused on the letter
+- **Korean character**: Large, centered (~280px font, bold, dark gray #1f2937)
+- **Romanization button**: Pink/coral (#f87171) rounded rectangle at bottom (padding: 24px 80px, fontSize: 64px)
+- **Background**: Pure white (#ffffff)
+- **Summary grid**: 3 columns, Korean letters at 240px, romanization at 50px with lineHeight: 1 and marginTop: -20
+
+---
+
+## Korean Vowels (한국어 모음) - Individual Letters
+
+```typescript
+const koreanVowelsTemplate = {
+  topic: "Korean Vowels",
+  topicKorean: "한국어 모음",
+  intro: "한국어 모음을 배워봐요!",
+  outro: "잘했어요! 이제 모음을 알아요!",
+  items: [
+    { id: "01_a", korean: "ㅏ", romanization: "a" },
+    { id: "02_eo", korean: "ㅓ", romanization: "eo" },
+    { id: "03_o", korean: "ㅗ", romanization: "o" },
+    { id: "04_u", korean: "ㅜ", romanization: "u" },
+    { id: "05_eu", korean: "ㅡ", romanization: "eu" },
+    { id: "06_i", korean: "ㅣ", romanization: "i" },
+    { id: "07_ae", korean: "ㅐ", romanization: "ae" },
+    { id: "08_e", korean: "ㅔ", romanization: "e" },
+    { id: "09_yo", korean: "ㅛ", romanization: "yo" },
+    { id: "10_yu", korean: "ㅠ", romanization: "yu" },
+  ]
+};
+```
+
+---
+
+## Korean Consonants (한국어 자음) - Individual Letters
+
+```typescript
+const koreanConsonantsTemplate = {
+  topic: "Korean Consonants",
+  topicKorean: "한국어 자음",
+  intro: "한국어 자음을 배워봐요!",
+  outro: "잘했어요! 이제 자음을 알아요!",
+  items: [
+    { id: "01_g", korean: "ㄱ", romanization: "g/k" },
+    { id: "02_n", korean: "ㄴ", romanization: "n" },
+    { id: "03_d", korean: "ㄷ", romanization: "d/t" },
+    { id: "04_r", korean: "ㄹ", romanization: "r/l" },
+    { id: "05_m", korean: "ㅁ", romanization: "m" },
+    { id: "06_b", korean: "ㅂ", romanization: "b/p" },
+    { id: "07_s", korean: "ㅅ", romanization: "s" },
+    { id: "08_ng", korean: "ㅇ", romanization: "ng/-" },
+    { id: "09_j", korean: "ㅈ", romanization: "j" },
+    { id: "10_ch", korean: "ㅊ", romanization: "ch" },
+    { id: "11_k", korean: "ㅋ", romanization: "k" },
+    { id: "12_t", korean: "ㅌ", romanization: "t" },
+    { id: "13_p", korean: "ㅍ", romanization: "p" },
+    { id: "14_h", korean: "ㅎ", romanization: "h" },
+  ]
+};
+```
+
+---
+
+## Korean Syllable Blocks - Vowels (한국어 음절 - 모음)
+
+Full syllable blocks combining consonant ㅇ with each vowel:
+
+```typescript
+const koreanSyllableVowelsTemplate = {
+  topic: "Korean Syllable Blocks - Vowels",
+  topicKorean: "한국어 음절 - 모음",
+  intro: "한국어 글자를 배워봐요!",
+  outro: "잘했어요! 이제 글자를 읽을 수 있어요!",
+  items: [
+    { id: "01_a", korean: "아", romanization: "a" },
+    { id: "02_eo", korean: "어", romanization: "eo" },
+    { id: "03_o", korean: "오", romanization: "o" },
+    { id: "04_u", korean: "우", romanization: "u" },
+    { id: "05_eu", korean: "으", romanization: "eu" },
+    { id: "06_i", korean: "이", romanization: "i" },
+    { id: "07_ae", korean: "애", romanization: "ae" },
+    { id: "08_e", korean: "에", romanization: "e" },
+    { id: "09_yo", korean: "요", romanization: "yo" },
+    { id: "10_yu", korean: "유", romanization: "yu" },
+  ]
+};
+```
+
+---
+
+## Korean Syllable Blocks - Consonants (한국어 음절 - 자음)
+
+Full syllable blocks combining each consonant with vowel ㅏ:
+
+```typescript
+const koreanSyllableConsonantsTemplate = {
+  topic: "Korean Syllable Blocks - Consonants",
+  topicKorean: "한국어 음절 - 자음",
+  intro: "한국어 자음 글자를 배워봐요!",
+  outro: "잘했어요! 이제 자음 글자를 읽을 수 있어요!",
+  items: [
+    { id: "01_ga", korean: "가", romanization: "ga" },
+    { id: "02_na", korean: "나", romanization: "na" },
+    { id: "03_da", korean: "다", romanization: "da" },
+    { id: "04_ra", korean: "라", romanization: "ra" },
+    { id: "05_ma", korean: "마", romanization: "ma" },
+    { id: "06_ba", korean: "바", romanization: "ba" },
+    { id: "07_sa", korean: "사", romanization: "sa" },
+    { id: "08_a", korean: "아", romanization: "a" },
+    { id: "09_ja", korean: "자", romanization: "ja" },
+    { id: "10_cha", korean: "차", romanization: "cha" },
+    { id: "11_ka", korean: "카", romanization: "ka" },
+    { id: "12_ta", korean: "타", romanization: "ta" },
+    { id: "13_pa", korean: "파", romanization: "pa" },
+    { id: "14_ha", korean: "하", romanization: "ha" },
+  ]
+};
+```
+
+---
+
 ## Using Templates
 
 When user requests a topic, look for matching template and use it to:
 1. Extract items and character info
-2. Generate base image
-3. Create variation images with specified poses
+2. Generate base image (SKIP for pronunciation type)
+3. Create variation images with specified poses (SKIP for pronunciation type)
 4. Generate TTS with intro/outro
 5. Build composition using items array
 
