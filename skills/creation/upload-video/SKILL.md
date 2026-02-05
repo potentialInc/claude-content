@@ -1,14 +1,14 @@
 ---
-name: remotion-upload
-description: Upload Remotion videos to social media platforms via Upload Posts API
+name: upload-video
+description: Upload videos to social media platforms via Upload Posts API
 metadata:
-  tags: remotion, upload, social-media, facebook, instagram, threads, youtube, tiktok, api
+  tags: upload, social-media, facebook, instagram, threads, youtube, tiktok, api
 when:
   patterns:
+    - upload video
     - upload
-    - post
-    - publish
-    - share
+    - post video
+    - publish video
   files:
     - out/*.mp4
   mentions:
@@ -21,7 +21,7 @@ when:
     - upload posts
 ---
 
-# Remotion Upload Skill
+# Upload Video Skill
 
 Upload rendered Remotion videos to multiple social media platforms using the Upload Posts API.
 
