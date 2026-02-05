@@ -1,24 +1,24 @@
 ---
-name: generate-korean-video-topic
+name: generate-topic
 description: Generate pedagogically-sound Korean learning topics for video production
 argument-hint: "[topic-name] [--level A1|A2|B1|B2] [--category vocabulary|polite|situation|sentence|grammar] [--scenes 5-15]"
 metadata:
   tags: korean, learning, topic, curriculum, cefr, pedagogy, content, library
 when:
   patterns:
+    - generate topic
     - generate korean topic
-    - create korean topic
+    - create topic
     - korean video topic
-    - korean learning topic
   mentions:
-    - korean topic
-    - vocabulary topic
+    - topic
+    - vocabulary
     - learning content
     - cefr
     - curriculum
 ---
 
-# Generate Korean Video Topic Skill
+# Generate Topic Skill
 
 Generate pedagogically-sound Korean learning content that can be consumed by multiple video production skills (`create-remotion-video`, `create-veo3-prompt`).
 
@@ -264,7 +264,7 @@ create veo3 prompt --from-topic korean-greetings
 ## Related Skills
 
 - [create-remotion-video](../create-remotion-video/SKILL.md) - Consumes topic library for Remotion videos
-- [create-veo3-prompt](../create-veo3-prompt/SKILL.md) - Consumes topic library for Veo3 prompts
+- [create-veo3-video](../create-veo3-video/SKILL.md) - Consumes topic library for Veo3 videos
 
 ## Detailed Documentation
 

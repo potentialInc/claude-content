@@ -271,5 +271,6 @@ ELEVENLABS_API_KEY=your_elevenlabs_api_key
 
 ## Related Skills
 
-- [generate-korean-video-topic](../generate-korean-video-topic/SKILL.md) - Generate topic library content (use first, then --from-topic)
-- [create-veo3-prompt](../create-veo3-prompt/SKILL.md) - Alternative video production using Veo3 (realistic style)
+- [generate-topic](../generate-topic/SKILL.md) - Generate topic library content (use first, then --from-topic)
+- [create-veo3-video](../create-veo3-video/SKILL.md) - Alternative video production using Veo3 (realistic style)
+- [upload-video](../upload-video/SKILL.md) - Upload rendered videos to social media platforms

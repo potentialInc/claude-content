@@ -18,6 +18,9 @@ when:
     - veo
 ---
 
+> **DEPRECATED**: Use `create video --engine veo3` instead.
+> This skill is kept for backward compatibility. See [../create-video/SKILL.md](../create-video/SKILL.md).
+
 # Create Veo3 Video Skill
 
 Automate the full AI video generation pipeline:
